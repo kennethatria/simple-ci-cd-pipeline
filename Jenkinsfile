@@ -6,7 +6,7 @@ node {
       }     
       stage('Build image') {         
        
-            app = docker.build("brandonjones085/test")    
+            app = docker.build("katria47/test")    
        }     
       stage('Test image') {           
             app.inside {            
@@ -15,9 +15,9 @@ node {
             }    
         }     
        stage('Push image') {
-                                                  docker.withRegistry('https://registry.hub.docker.com', 'git') {            
-       app.push("${env.BUILD_NUMBER}")            
-       app.push("latest")        
+             docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {            
+                 app.push("${env.BUILD_NUMBER}")            
+                 app.push("latest")        
               }    
            }
         }
