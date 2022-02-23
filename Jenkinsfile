@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { dockerfile}
     stages {
         stage('Build Docker Image') {
             when {
@@ -7,10 +7,9 @@ pipeline {
             }
             steps {
                 script {
-                    def myapp = docker.build("katria47/sample-app:${env.BUILD_ID}")
+                    myapp = docker.build("katria47/sample-app:${env.BUILD_ID}")
                     app.inside {
-                        //sh 'echo $(curl localhost:8080)'
-                        sh 'echo "hello world"'
+                        sh 'echo $(curl localhost:8080)'
                     }
                 }
             }
