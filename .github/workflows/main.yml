@@ -1,0 +1,62 @@
+# This is a basic workflow that is manually triggered
+
+name: Deploy to Test Instance
+
+on:
+  push:
+    branches:
+      - "release/*"
+  pull_request:
+    types: [ closed ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  merge-job:
+    name: Merge - ${{ github.ref }} to Staging
+    if: github.event.pull_request.merged == true && ${{ github.event.pull_request.base.ref == 'development' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: everlytic/branch-merge@1.1.2
+        with:
+          github_token: ${{ github.token }}
+          source_ref: ${{ github.ref }}
+          target_branch: 'staging'
+          commit_message_template: '[Automated] Merged {source_ref} into {target_branch}'
+      - run: |
+          echo PR #${{ github.event.number }} has been merged. 
+          echo PR target branch ${{ github.event.pull_request.base.ref }}
+          echo PR source branch ${{ github.event.pull_request.head.ref }}
+          
+  security:
+    name: Security - Finding Vulnerabilities
+    runs-on: ubuntu-latest
+    needs: merge-job
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Synk to check for vulnerablities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env: 
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+
+  push-build:
+    name: Push build to Test
+    runs-on: ubuntu-latest
+    needs: security
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Installing medic-conf
+        run: ech
+      - name: Testing medic-conf version
+        run: medic-conf --version
+      - name: Setting up pyxform
+        run: python -m pip install git+https://github.com/medic/pyxform.git@medic-conf-1.17#egg=pyxform-medic
+      - name: Building configurations # medic-conf --url=https://username:password@example.com:12345
+        run: |
+          medic-conf compile-app-settings convert-app-forms -- assessment
