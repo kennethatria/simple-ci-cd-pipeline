@@ -4,7 +4,7 @@ node {
             checkout scm    
       }     
       stage('Build image') {         
-            app = docker.build("katria/ci-test-cd")    
+            app = docker.build("katria47/ci-test-cd")    
       }     
       stage('Test image') {           
             app.inside {   
