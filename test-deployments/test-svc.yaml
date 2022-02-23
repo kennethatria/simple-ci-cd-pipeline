@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-change
+spec:
+  ports:
+  - port: 4200
+    targetPort: 4200
+  selector:
+    app: test-change

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-change
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: test-change
+  template:
+    metadata:
+      labels:
+        app: test-change
+    spec:
+      containers:
+      - image: katria47/ci-test-cd
+        name: test-change
+        ports:
+        - containerPort: 4200

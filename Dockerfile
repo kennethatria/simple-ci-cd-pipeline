@@ -1,3 +1,13 @@
-FROM nginx:1.21.6-alpine
-COPY ./src/index.html /usr/share/nginx/html
-EXPOSE 80
+FROM node:16
+
+WORKDIR /usr/src/app
+
+COPY ./app/package*.json ./
+
+RUN npm install
+
+# Bundle app source
+COPY ./app .
+
+EXPOSE 8080
+CMD [ "node", "server.js" ]
