@@ -9,7 +9,8 @@ pipeline {
                 script {
                     def myapp = docker.build("katria47/sample-app:${env.BUILD_ID}")
                     app.inside {
-                        sh 'echo $(curl localhost:8080)'
+                        //sh 'echo $(curl localhost:8080)'
+                        sh 'echo "hello world"'
                     }
                 }
             }
