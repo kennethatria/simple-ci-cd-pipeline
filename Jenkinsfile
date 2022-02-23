@@ -7,8 +7,12 @@ node {
             app = docker.build("katria/ci-test-cd")    
       }     
       stage('Test image') {           
-            app.inside {              
-            sh 'curl http://localhost:4200'        
+            app.inside {   
+                  try{
+                        sh 'curl http://localhost:4200'
+                  }catch(err){
+                        echo "Failed: ${err}"
+                  }      
       }    
       }     
       stage('Push image') {
