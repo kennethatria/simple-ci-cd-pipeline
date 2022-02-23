@@ -1,4 +1,4 @@
-FROM node:latest as node
+FROM node:latest
 RUN mkdir -p /app
 WORKDIR /app
 COPY ./sample-apps/package*.json /app/
