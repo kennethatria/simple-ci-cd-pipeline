@@ -21,4 +21,8 @@ node {
                   app.push("latest")        
             }    
       }
+      stage('DeployToProduction') {
+            input 'Deploy to Production'
+            milestone(1)
+      }
 }
