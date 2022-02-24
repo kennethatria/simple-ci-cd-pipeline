@@ -1,5 +1,8 @@
 node {    
-      def app         
+      def app
+      stage('Clone repository') {               
+            checkout scm    
+      }       
       stage('Build image') {  
             when {
                   branch 'staging'
@@ -27,7 +30,7 @@ node {
                   app.push("latest")        
             }    
       }
-      stage('DeployToRemote') {
+      stage('DeployToStaging ') {
             when { 
                   branch 'staging'
             }
