@@ -1,12 +1,15 @@
 node {    
-      def app     
-            stage('Clone repository') {               
-            checkout scm    
-      }     
-      stage('Build image') {         
+      def app         
+      stage('Build image') {  
+            when {
+                  branch 'staging'
+            }       
             app = docker.build("katria47/ci-test-cd")    
       }     
-      stage('Test image') {           
+      stage('Test image') {  
+            when { 
+                  branch 'staging'
+            }         
             app.inside {   
                   try{
                         sh 'curl http://localhost:8080'
@@ -16,12 +19,18 @@ node {
       }    
       }     
       stage('Push image') {
+            when { 
+                  branch 'staging'
+            }
             docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {            
                   app.push("${env.BUILD_NUMBER}")            
                   app.push("latest")        
             }    
       }
-      stage('DeployToProduction') {
+      stage('DeployToRemote') {
+            when { 
+                  branch 'staging'
+            }
             input 'Deploy to Production'
             milestone(1)
             withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]){
