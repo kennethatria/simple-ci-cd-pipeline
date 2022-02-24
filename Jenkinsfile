@@ -8,7 +8,7 @@ pipeline {
                         app = docker.build("katria47/ci-test-cd")
                         app.inside {   
                             try{
-                            sh 'curl http://localhost:8080'
+                            sh 'echo $(curl http://localhost:8080)'
                             }catch(err){
                             echo "Failed: ${err}"
                             }      
