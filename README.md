@@ -1,5 +1,5 @@
 # simple-ci-cd-pipeline
-    Setting up ci and cd pipelines using jenkins and github
+    Setting up CI and CD pipelines using jenkins and github
 
   - Jenkinsfile is used to define 4 stages to ci-cd pipeline. These stages are as follows:<br />
     <ul>
