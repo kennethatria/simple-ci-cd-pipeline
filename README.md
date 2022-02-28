@@ -15,5 +15,3 @@
         <li> Automatic merging of branches into staging branch</li>
         <li> Checking for security vulnerabilities using Synk</li>
     </ul>
-
-      

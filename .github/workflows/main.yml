@@ -1,5 +1,3 @@
-
-
 name: Deploy to Test Instance
 
 on:
@@ -47,9 +45,8 @@ jobs:
     needs: security
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
         continue-on-error: true
       - name: Pushing test build to Argocd K8
+        run: |
+          echo "stage is incomplete"
 
