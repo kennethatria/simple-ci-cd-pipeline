@@ -1,4 +1,4 @@
-# This is a basic workflow that is manually triggered
+
 
 name: Deploy to Test Instance
 
@@ -9,7 +9,6 @@ on:
   pull_request:
     types: [ closed ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   merge-job:
     name: Merge - ${{ github.ref }} to Staging
@@ -41,3 +40,15 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
+
+  push-build:
+    name: Push build to test to Argocd
+    runs-on: ubuntu-latest
+    needs: security
+    steps:
+      - uses: actions/checkout@v1
+        continue-on-error: true
+      - name: Pushing test build to Argocd K8
+        run: |
+          echo "stage is incomplete"
+
