@@ -9,6 +9,9 @@
    
   - Updating yaml file for git actions
       With the help of git actions, two additional steps were implmented in this CI-CD process. This are as follows:<br />
-          1) Automatic merging of branches into staging branch.<br />
-          2) Checking for security vulnerabilities using Synk.<br />
+      <ul>
+        <li> Automatic merging of branches into staging branch</li>
+        <li> Checking for security vulnerabilities using Synk</li>
+    </ul>
+
       
